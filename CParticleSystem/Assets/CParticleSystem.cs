@@ -46,14 +46,14 @@ public class CParticleSystem : MonoBehaviour
     [SerializeField] private Vector3 startRotation;
 
     // change back to IModule
-    List<int> modules;
-    // RendererComponent renderer;
+    // List<IModule> modules;
+    [SerializeField] private MovementModule movementModule;
 
 
     private void Awake() {
         aliveParticles = new HashSet<Particle>();
         deadParticles = new Queue<Particle>();
-        modules = new List<int>();
+        // modules = new List<int>();
         mesh = new Mesh();
         meshFilter = GetComponent<MeshFilter>();
     }
@@ -73,7 +73,7 @@ public class CParticleSystem : MonoBehaviour
         // kill clause
         LifetimeStep();
         // update all components
-        // 
+        movementModule.Update(aliveParticles);
         
         // render
         PopulateMesh();
@@ -95,10 +95,10 @@ public class CParticleSystem : MonoBehaviour
         {
             return;
         }
-        InitDefaults(p);
-        aliveParticles.Add(p);
 
-        Debug.Log("particle created");
+        InitDefaults(p);
+        movementModule.InitParticle(p, this);
+        aliveParticles.Add(p);
     }
     private void LifetimeStep()
     {
@@ -116,13 +116,11 @@ public class CParticleSystem : MonoBehaviour
         aliveParticles.Remove(p);
         deadParticles.Enqueue(p);
         p.Reset();
-
-        Debug.Log("particle killed");
     }
     private void InitDefaults(Particle p)
     {
         p.Set<float>("Lifetime", startLifetime);
-        p.Set<Vector3>("Position", new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
+        p.Set<Vector3>("Position", Vector3.zero);
         p.Set<float>("Size", startSize);
         p.Set<Color>("Color", startColor);
         p.Set<Vector3>("Rotation", startRotation);

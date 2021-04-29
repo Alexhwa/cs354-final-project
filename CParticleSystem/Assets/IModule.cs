@@ -4,6 +4,6 @@ using UnityEngine;
 
 interface IModule
 {
-    void InitParticle(Particle particle);
+    void InitParticle(Particle particle, CParticleSystem system);
     void Update(HashSet<Particle> aliveParticles);
 }

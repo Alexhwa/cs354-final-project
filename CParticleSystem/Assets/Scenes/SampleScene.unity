@@ -346,6 +346,52 @@ MonoBehaviour:
   m_MoveSpeed: 10
   m_MoveSpeedIncrement: 2.5
   m_Turbo: 10
+--- !u!1 &1007132176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1007132178}
+  - component: {fileID: 1007132177}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1007132177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007132176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be9d9239e5bbdd4f8483d3a93557b70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 1
+  baseRotation: {x: -0.9, y: -149.1, z: 9.2}
+  spread: 180
+--- !u!4 &1007132178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007132176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440227399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,7 +1101,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 25
+    angle: 0
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -1141,7 +1187,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 1.7
       mode: 0
       spread: 0
       speed:
@@ -1198,7 +1244,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
     arc:
-      value: 360
+      value: 358.4
       mode: 0
       spread: 0
       speed:
@@ -5131,13 +5177,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxParticles: 1000
-  particlesPerSecond: 5
+  particlesPerSecond: 50
   startLifetime: 1
   isLooping: 1
   startMaterial: {fileID: 2100000, guid: bd2d742ee2ce7a740ae0cf992a38be74, type: 2}
-  startSize: 1
+  startSize: 0.2
   startColor: {r: 1, g: 0.6273585, b: 0.6273585, a: 1}
   startRotation: {x: 0, y: 0, z: 0}
+  movementModule:
+    speed: 10
+    coneSpread: 90
+    coneRotation: {x: 0, y: 0, z: 0}
+    acceleration: {x: 0, y: 0, z: 0}
 --- !u!4 &1602978809
 Transform:
   m_ObjectHideFlags: 0
