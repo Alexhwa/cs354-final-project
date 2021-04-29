@@ -24,13 +24,12 @@ public class CParticleSystem : MonoBehaviour
     Map (string -> value) for default values
     */
 
-    Mesh mesh; // TODO: check if this is actually what you do
+    Mesh mesh;
     MeshFilter meshFilter;
 
     // particle data
     HashSet<Particle> aliveParticles;
     Queue<Particle> deadParticles;
-    int numAliveParticles => aliveParticles.Count;
 
     // component data
     [Header("Emission Data")]
@@ -44,7 +43,7 @@ public class CParticleSystem : MonoBehaviour
     [SerializeField] private Material startMaterial;
     [SerializeField] private float startSize;
     [SerializeField] private Color startColor;
-    [SerializeField] private Vector3 startFacing;
+    [SerializeField] private Vector3 startRotation;
 
     // change back to IModule
     List<int> modules;
@@ -65,6 +64,7 @@ public class CParticleSystem : MonoBehaviour
         // 1. get particle
         // 2. initialize particle defaults (position, color, normal, size)
         // 3. init particle across all modules (particles should have all needed keys in dictionary)
+        emissionTimer -= Time.deltaTime;
         while(emissionTimer <= 0)
         {
             emissionTimer += 1f / particlesPerSecond;
@@ -97,6 +97,8 @@ public class CParticleSystem : MonoBehaviour
         }
         InitDefaults(p);
         aliveParticles.Add(p);
+
+        Debug.Log("particle created");
     }
     private void LifetimeStep()
     {
@@ -114,14 +116,16 @@ public class CParticleSystem : MonoBehaviour
         aliveParticles.Remove(p);
         deadParticles.Enqueue(p);
         p.Reset();
+
+        Debug.Log("particle killed");
     }
     private void InitDefaults(Particle p)
     {
         p.Set<float>("Lifetime", startLifetime);
-        p.Set<Vector3>("Position", Vector3.zero);
+        p.Set<Vector3>("Position", new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f)));
         p.Set<float>("Size", startSize);
         p.Set<Color>("Color", startColor);
-        p.Set<Vector3>("Normal", startFacing);
+        p.Set<Vector3>("Rotation", startRotation);
         //p.Set<float>("UV", startSize);
 
     }
@@ -129,25 +133,45 @@ public class CParticleSystem : MonoBehaviour
     {
         List<Vector3> verts = new List<Vector3>();
         List<int> tris = new List<int>();
-        mesh.Clear();
-        for(int i = 0; i < 2; i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
-                for (int k = 0; k < 2; k++)
-                {
-                    verts.Add(new Vector3(i, j, k));
-                }
-            }
-        }
-        tris.Add(0);
-        tris.Add(1);
-        tris.Add(2);
+        List<Vector2> uvs = new List<Vector2>();
+        List<Color> colors = new List<Color>();
 
-        tris.Add(3);
-        tris.Add(1);
-        tris.Add(2);
+        mesh.Clear();
+
+        foreach (Particle p in aliveParticles) {
+            var rot = Quaternion.Euler(p.Get<Vector3>("Rotation"));
+            var up = rot * transform.up * p.Get<float>("Size");
+            var right = rot * transform.right * p.Get<float>("Size");
+            var center = transform.TransformPoint(p.Get<Vector3>("Position"));
+
+            var baseVertexId = verts.Count;
+            verts.Add(center - up - right); // bottom left
+            verts.Add(center - up + right); // bottom right
+            verts.Add(center + up - right); // top left
+            verts.Add(center + up + right); // top right
+
+            tris.Add(baseVertexId + 0); // bottom left triangle
+            tris.Add(baseVertexId + 1);
+            tris.Add(baseVertexId + 2);
+            tris.Add(baseVertexId + 3); // top right triangle
+            tris.Add(baseVertexId + 2);
+            tris.Add(baseVertexId + 1);
+
+            uvs.Add(Vector2.zero);
+            uvs.Add(Vector2.right);
+            uvs.Add(Vector2.up);
+            uvs.Add(Vector2.one);
+
+            var color = p.Get<Color>("Color");
+            colors.Add(color);
+            colors.Add(color);
+            colors.Add(color);
+            colors.Add(color);
+        }
+        
         mesh.SetVertices(verts);
         mesh.SetTriangles(tris, 0);
+        mesh.SetUVs(0, uvs);
+        mesh.SetColors(colors);
     }
 }
