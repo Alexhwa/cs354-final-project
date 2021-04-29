@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof (MeshFilter))]
+[RequireComponent(typeof (MeshRenderer))]
 public class CParticleSystem : MonoBehaviour
 {
     /*
@@ -39,22 +41,28 @@ public class CParticleSystem : MonoBehaviour
     [SerializeField] private Material startMaterial;
     [SerializeField] private float startSize;
 
-    List<IPSComponent> components;
+    // change back to IModule
+    List<int> modules;
     // RendererComponent renderer;
 
 
     private void Awake() {
         aliveParticles = new HashSet<Particle>();
         deadParticles = new Queue<Particle>();
-        components = new List<IPSComponent>();
+        modules = new List<int>();
     }
 
     private void Update() {
         // emit clause
-        
+        // if emit (according to emission rate & max particles)
+        // 1. get particle
+        // 2. initialize particle defaults (position, color, normal, size)
+        // 3. init particle across all modules (particles should have all needed keys in dictionary)
+
         // kill clause
 
         // update all components
+        // 
 
         // render
     }
