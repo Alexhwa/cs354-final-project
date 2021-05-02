@@ -46,16 +46,18 @@ public class CParticleSystem : MonoBehaviour
     [SerializeField] private Vector3 startRotation;
 
     // change back to IModule
-    // List<IModule> modules;
+    List<IModule> modules;
     [SerializeField] private MovementModule movementModule;
 
 
     private void Awake() {
         aliveParticles = new HashSet<Particle>();
         deadParticles = new Queue<Particle>();
-        // modules = new List<int>();
         mesh = new Mesh();
         meshFilter = GetComponent<MeshFilter>();
+
+        modules = new List<IModule>();
+        modules.Add(movementModule);
     }
 
     private void Update() {
@@ -73,7 +75,10 @@ public class CParticleSystem : MonoBehaviour
         // kill clause
         LifetimeStep();
         // update all components
-        movementModule.Update(aliveParticles);
+        foreach (IModule m in modules)
+        {
+            m.Update(aliveParticles);
+        }
         
         // render
         PopulateMesh();
@@ -97,7 +102,10 @@ public class CParticleSystem : MonoBehaviour
         }
 
         InitDefaults(p);
-        movementModule.InitParticle(p, this);
+        foreach (IModule m in modules)
+        {
+            m.InitParticle(p, this);
+        }
         aliveParticles.Add(p);
     }
     private void LifetimeStep()
