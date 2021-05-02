@@ -48,7 +48,7 @@ public class CParticleSystem : MonoBehaviour
     // change back to IModule
     List<IModule> modules;
     [SerializeField] private MovementModule movementModule;
-
+    [SerializeField] private RotationModule rotationModule;
 
     private void Awake() {
         aliveParticles = new HashSet<Particle>();
@@ -58,6 +58,7 @@ public class CParticleSystem : MonoBehaviour
 
         modules = new List<IModule>();
         modules.Add(movementModule);
+        modules.Add(rotationModule);
     }
 
     private void Update() {
@@ -133,7 +134,6 @@ public class CParticleSystem : MonoBehaviour
         p.Set<Color>("Color", startColor);
         p.Set<Vector3>("Rotation", startRotation);
         //p.Set<float>("UV", startSize);
-
     }
     private void PopulateMesh()
     {
@@ -162,6 +162,12 @@ public class CParticleSystem : MonoBehaviour
             tris.Add(baseVertexId + 3); // top right triangle
             tris.Add(baseVertexId + 2);
             tris.Add(baseVertexId + 1);
+            tris.Add(baseVertexId + 0); // bottom left triangle back
+            tris.Add(baseVertexId + 2);
+            tris.Add(baseVertexId + 1);
+            tris.Add(baseVertexId + 3); // top right triangle back
+            tris.Add(baseVertexId + 1);
+            tris.Add(baseVertexId + 2);
 
             uvs.Add(Vector2.zero);
             uvs.Add(Vector2.right);
