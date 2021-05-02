@@ -5177,7 +5177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxParticles: 1000
-  particlesPerSecond: 50
+  particlesPerSecond: 200
   startLifetime: 1
   isLooping: 1
   startMaterial: {fileID: 2100000, guid: bd2d742ee2ce7a740ae0cf992a38be74, type: 2}
@@ -5189,6 +5189,16 @@ MonoBehaviour:
     coneSpread: 90
     coneRotation: {x: 0, y: 0, z: 0}
     acceleration: {x: 0, y: 0, z: 0}
+  rotationModule:
+    rotationVelocity: {x: 0, y: 0, z: 0}
+    rotationAcceleration: {x: 0, y: 0, z: 0}
+  sizeAgeModule:
+    oscillate: 0
+    frequency: 0
+    randomization: 0
+    uniformRange: {x: 0, y: 0}
+    normalMean: 0
+    normalSpread: 0
 --- !u!4 &1602978809
 Transform:
   m_ObjectHideFlags: 0
