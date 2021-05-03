@@ -20,6 +20,7 @@ public class CameraPresent : MonoBehaviour
     void Start()
     {
         pathBody = virtCam.GetCinemachineComponent<CinemachineTrackedDolly>();
+        pathBody.m_PathPosition = 0;
     }
 
     // Update is called once per frame
