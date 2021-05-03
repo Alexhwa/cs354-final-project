@@ -33,7 +33,7 @@ public class CParticleSystem : MonoBehaviour
 
     // component data
     [Header("Emission Data")]
-    [SerializeField] private int maxParticles;
+    [SerializeField] private uint maxParticles;
     [SerializeField] private float particlesPerSecond;
     [SerializeField] private float startLifetime;
     [SerializeField] private bool isLooping;
@@ -70,12 +70,20 @@ public class CParticleSystem : MonoBehaviour
         // 1. get particle
         // 2. initialize particle defaults (position, color, normal, size)
         // 3. init particle across all modules (particles should have all needed keys in dictionary)
+
         emissionTimer -= Time.deltaTime;
-        while(emissionTimer <= 0)
+        if(particlesPerSecond < 0)
+        {
+            particlesPerSecond = 0;
+        }
+        while(emissionTimer <= 0 && particlesPerSecond > 0)
         {
             emissionTimer += 1f / particlesPerSecond;
-            EmitParticle();
+            if (aliveParticles.Count < maxParticles) {
+                EmitParticle();
+            }
         }
+
         // kill clause
         LifetimeStep();
         // update all components
