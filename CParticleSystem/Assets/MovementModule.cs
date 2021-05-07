@@ -6,17 +6,16 @@ using UnityEngine;
 public class MovementModule : IModule
 {
     [SerializeField] private float speed;
+    [Range(0, 100)]
     [SerializeField] private float coneSpread;
     [SerializeField] private Vector3 coneRotation;
 
     [SerializeField] private Vector3 acceleration;
-    //DEBUG
-    private CParticleSystem s;
 
     public void InitParticle(Particle particle, CParticleSystem system)
     {
         // random point inside unit circle
-        var circlePoint = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector3.right * coneSpread * Random.Range(0f, 1f);
+        var circlePoint = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector3.right * Random.Range(0f, coneSpread);
         
         // vector pointing through the center of the cone
         var coneDirection = Quaternion.Euler(coneRotation) * system.transform.forward;
@@ -27,11 +26,9 @@ public class MovementModule : IModule
 
         var randomDirection = coneDirection + coneRight * circlePoint.x + coneUp * circlePoint.y;
         
-        particle.Set<Vector3>("Velocity", randomDirection.normalized * speed);
+        particle.Set<Vector3>("Velocity", system.transform.InverseTransformVector(randomDirection.normalized * speed));
         particle.Set<Vector3>("Acceleration", acceleration);
-        //DEBUG
-        s = system;
-        Debug.Log(randomDirection);
+
     }
 
     public void Update(HashSet<Particle> aliveParticles)
