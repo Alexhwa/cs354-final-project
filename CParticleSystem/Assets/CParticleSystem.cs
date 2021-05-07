@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+[ExecuteInEditMode]
 [RequireComponent(typeof (MeshFilter))]
 [RequireComponent(typeof (MeshRenderer))]
 public class CParticleSystem : MonoBehaviour
@@ -32,36 +33,51 @@ public class CParticleSystem : MonoBehaviour
     Queue<Particle> deadParticles;
 
     // component data
+    [System.Serializable]
+    public struct EmissionData {
+        public uint maxParticles;
+        public float particlesPerSecond;
+        public float startLifetime;
+        public bool isLooping;
+    }
+
     [Header("Emission Data")]
+    [SerializeField] private EmissionData emissionData;
     [SerializeField] private uint maxParticles;
     [SerializeField] private float particlesPerSecond;
     [SerializeField] private float startLifetime;
     [SerializeField] private bool isLooping;
     private float emissionTimer;
 
+    [System.Serializable]
+    public struct RenderData {
+        public Material startMaterial;
+        public float startSize;
+        public Color startColor;
+        public Vector3 startRotation;
+    }
+
     [Header("Renderer Data")]
+    [SerializeField] private RenderData renderData;
     [SerializeField] private Material startMaterial;
     [SerializeField] private float startSize;
     [SerializeField] private Color startColor;
     [SerializeField] private Vector3 startRotation;
 
     // change back to IModule
-    List<IModule> modules;
+    [SerializeReference] private List<IModule> modules;
     [SerializeField] private MovementModule movementModule;
     [SerializeField] private RotationModule rotationModule;
     [SerializeField] private CustomSizeModule sizeAgeModule;
 
 
-    private void Awake() {
+    private void OnEnable() {
         aliveParticles = new HashSet<Particle>();
         deadParticles = new Queue<Particle>();
         mesh = new Mesh();
         meshFilter = GetComponent<MeshFilter>();
 
-        modules = new List<IModule>();
-        modules.Add(movementModule);
-        modules.Add(rotationModule);
-        modules.Add(sizeAgeModule);
+        modules = new List<IModule>() { movementModule, rotationModule, sizeAgeModule };
     }
 
     private void Update() {

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IModule
+[System.Serializable]
+public class IModule
 {
-    void InitParticle(Particle particle, CParticleSystem system);
-    void Update(HashSet<Particle> aliveParticles);
+    public virtual void InitParticle(Particle particle, CParticleSystem system) {}
+    public virtual void Update(HashSet<Particle> aliveParticles) {}
 }

@@ -19,13 +19,13 @@ public class CustomSizeModule : IModule
     [SerializeField] private float normalMean;
     [SerializeField] private float normalSpread;
 
-    public void InitParticle(Particle particle, CParticleSystem system)
+    public override void InitParticle(Particle particle, CParticleSystem system)
     {
         particle.Set<float>("Age", 0f);
         particle.Set<float>("Start Size", Randomize(particle.Get<float>("Size")));
     }
 
-    public void Update(HashSet<Particle> aliveParticles)
+    public override void Update(HashSet<Particle> aliveParticles)
     {
         foreach (Particle p in aliveParticles)
         {

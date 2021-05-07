@@ -11,7 +11,7 @@ public class MovementModule : IModule
 
     [SerializeField] private Vector3 acceleration;
 
-    public void InitParticle(Particle particle, CParticleSystem system)
+    public override void InitParticle(Particle particle, CParticleSystem system)
     {
         // random point inside unit circle
         var circlePoint = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector2.right * coneSpread * Random.Range(0f, 1f);
@@ -29,7 +29,7 @@ public class MovementModule : IModule
         particle.Set<Vector3>("Acceleration", acceleration);
     }
 
-    public void Update(HashSet<Particle> aliveParticles)
+    public override void Update(HashSet<Particle> aliveParticles)
     {
         foreach (Particle p in aliveParticles) {
             p.Set<Vector3>("Position", p.Get<Vector3>("Position") + p.Get<Vector3>("Velocity") * Time.deltaTime);

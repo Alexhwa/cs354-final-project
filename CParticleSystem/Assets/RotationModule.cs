@@ -8,13 +8,13 @@ public class RotationModule : IModule
     [SerializeField] private Vector3 rotationVelocity;
     [SerializeField] private Vector3 rotationAcceleration;
 
-    public void InitParticle(Particle particle, CParticleSystem system)
+    public override void InitParticle(Particle particle, CParticleSystem system)
     {
         particle.Set<Vector3>("Rotation Velocity", rotationVelocity);
         particle.Set<Vector3>("Rotation Acceleration", rotationAcceleration);
     }
 
-    public void Update(HashSet<Particle> aliveParticles)
+    public override void Update(HashSet<Particle> aliveParticles)
     {
         foreach (Particle p in aliveParticles)
         {
