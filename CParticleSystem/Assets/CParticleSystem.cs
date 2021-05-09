@@ -50,7 +50,7 @@ public class CParticleSystem : MonoBehaviour
     [SerializeField] private MovementModule movementModule;
     [SerializeField] private RotationModule rotationModule;
     [SerializeField] private CustomSizeModule sizeAgeModule;
-
+    [SerializeField] private RenderModule renderModule;
 
     private void Awake() {
         aliveParticles = new HashSet<Particle>();
@@ -62,6 +62,7 @@ public class CParticleSystem : MonoBehaviour
         modules.Add(movementModule);
         modules.Add(rotationModule);
         modules.Add(sizeAgeModule);
+        modules.Add(renderModule);
     }
 
     private void Update() {
