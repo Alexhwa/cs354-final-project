@@ -20,16 +20,6 @@ public class RenderModule : IModule
         {
             foreach (Particle p in aliveParticles)
             {
-                /*
-                Vector3 camForward = Camera.main.transform.forward;
-                Vector3 camPos = Camera.main.transform.position;
-                Plane plane = new Plane(p.Get<Vector3>("Position"), -camForward);
-                Ray r = new Ray(camPos, camForward);
-                float enter = 0;
-                plane.Raycast(r, out enter);
-                r.GetPoint(enter);
-                */
-
                 var lookDir = Quaternion.LookRotation(-Camera.main.transform.forward);
                 p.Set<Vector3>("Rotation", lookDir.eulerAngles);
             }
