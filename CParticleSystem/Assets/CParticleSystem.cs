@@ -146,8 +146,8 @@ public class CParticleSystem : MonoBehaviour
 
         foreach (Particle p in aliveParticles) {
             var rot = Quaternion.Euler(p.Get<Vector3>("Rotation"));
-            var up = rot * transform.up * p.Get<float>("Size");
-            var right = rot * transform.right * p.Get<float>("Size");
+            var up = rot * Vector3.up * p.Get<float>("Size");
+            var right = rot * Vector3.right * p.Get<float>("Size");
             var center = p.Get<Vector3>("Position");
 
             var baseVertexId = verts.Count;

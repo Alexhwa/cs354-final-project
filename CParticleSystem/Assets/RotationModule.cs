@@ -30,8 +30,9 @@ public class RotationModule : IModule
 
         foreach (Particle p in aliveParticles) {
             if (rotationType == RotationType.Billboarding) {
-                var lookDir = Quaternion.LookRotation(-camera.transform.forward);
+                var lookDir = Quaternion.LookRotation(transform.InverseTransformDirection(-camera.transform.forward));
                 p.Set<Vector3>("Rotation", p.Get<Vector3>("Rotation Offset") + lookDir.eulerAngles);
+                
             }
             else {
                 p.Set<Vector3>("Rotation", p.Get<Vector3>("Rotation Offset"));
