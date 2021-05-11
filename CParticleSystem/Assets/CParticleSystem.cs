@@ -175,7 +175,7 @@ public class CParticleSystem : MonoBehaviour
             var rot = Quaternion.Euler(p.Get<Vector3>("Rotation"));
             var up = rot * transform.up * p.Get<float>("Size");
             var right = rot * transform.right * p.Get<float>("Size");
-            var center = transform.TransformPoint(p.Get<Vector3>("Position"));
+            var center = p.Get<Vector3>("Position");
 
             var baseVertexId = verts.Count;
             verts.Add(center - up - right); // bottom left
