@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-[ExecuteInEditMode]
 [RequireComponent(typeof (MeshFilter))]
 [RequireComponent(typeof (MeshRenderer))]
 public class CParticleSystem : MonoBehaviour
@@ -64,8 +63,7 @@ public class CParticleSystem : MonoBehaviour
     [SerializeField] private Color startColor;
     [SerializeField] private Vector3 startRotation;
 
-    // change back to IModule
-    [SerializeReference] private List<IModule> modules;
+    private IModule[] modules;
     [SerializeField] private MovementModule movementModule;
     [SerializeField] private RotationModule rotationModule;
     [SerializeField] private CustomSizeModule sizeAgeModule;
@@ -77,7 +75,7 @@ public class CParticleSystem : MonoBehaviour
         mesh = new Mesh();
         meshFilter = GetComponent<MeshFilter>();
 
-        modules = new List<IModule>() { movementModule, rotationModule, sizeAgeModule };
+        modules = GetComponents<IModule>();
     }
 
     private void Update() {
@@ -105,7 +103,7 @@ public class CParticleSystem : MonoBehaviour
         // update all components
         foreach (IModule m in modules)
         {
-            m.Update(aliveParticles);
+            m.UpdateParticles(aliveParticles);
         }
         
         // render
@@ -132,7 +130,7 @@ public class CParticleSystem : MonoBehaviour
         InitDefaults(p);
         foreach (IModule m in modules)
         {
-            m.InitParticle(p, this);
+            m.InitParticle(p);
         }
         aliveParticles.Add(p);
     }

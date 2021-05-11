@@ -6,6 +6,7 @@ using UnityEditor;
 [CustomEditor(typeof(CParticleSystem))]
 public class CParticleSystemEditor : Editor
 {
+    /*
     SerializedObject so;
     SerializedProperty propEmissionData;
     SerializedProperty propRenderData;
@@ -42,4 +43,5 @@ public class CParticleSystemEditor : Editor
     
         so.ApplyModifiedProperties();
     }
+    */
 }
