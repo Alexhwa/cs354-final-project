@@ -31,43 +31,18 @@ public class CParticleSystem : MonoBehaviour
     HashSet<Particle> aliveParticles;
     Queue<Particle> deadParticles;
 
-    // component data
-    [System.Serializable]
-    public struct EmissionData {
-        public uint maxParticles;
-        public float particlesPerSecond;
-        public float startLifetime;
-        public bool isLooping;
-    }
-
-    [Header("Emission Data")]
-    [SerializeField] private EmissionData emissionData;
     [SerializeField] private uint maxParticles;
     [SerializeField] private float particlesPerSecond;
     [SerializeField] private float startLifetime;
     [SerializeField] private bool isLooping;
     private float emissionTimer;
 
-    [System.Serializable]
-    public struct RenderData {
-        public Material startMaterial;
-        public float startSize;
-        public Color startColor;
-        public Vector3 startRotation;
-    }
-
-    [Header("Renderer Data")]
-    [SerializeField] private RenderData renderData;
     [SerializeField] private Material startMaterial;
     [SerializeField] private float startSize;
     [SerializeField] private Color startColor;
     [SerializeField] private Vector3 startRotation;
 
     private IModule[] modules;
-    [SerializeField] private MovementModule movementModule;
-    [SerializeField] private RotationModule rotationModule;
-    [SerializeField] private CustomSizeModule sizeAgeModule;
-
 
     private void OnEnable() {
         aliveParticles = new HashSet<Particle>();
@@ -212,3 +187,4 @@ public class CParticleSystem : MonoBehaviour
         mesh.SetColors(colors);
     }
 }
+

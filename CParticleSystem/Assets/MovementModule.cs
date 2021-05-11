@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovementModule : IModule
 {
     [SerializeField] private float speed;
-    [SerializeField] private float coneSpread;
+    [Range(0, 180)] [SerializeField] private float coneSpread;
     [SerializeField] private Vector3 coneRotation;
     private Vector3 coneDirection => Quaternion.Euler(coneRotation) * Vector3.forward;
     private Vector3 coneNormal => Quaternion.Euler(coneRotation) * Vector3.up;
