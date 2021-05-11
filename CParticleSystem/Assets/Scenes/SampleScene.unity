@@ -183,11 +183,11 @@ ParticleSystemRenderer:
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
-  m_CameraVelocityScale: 0
-  m_VelocityScale: 0
-  m_LengthScale: 2
+  m_CameraVelocityScale: 1.94
+  m_VelocityScale: 0.35
+  m_LengthScale: 4.61
   m_SortingFudge: 0
-  m_NormalDirection: 0.75
+  m_NormalDirection: 0
   m_ShadowBias: 0
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
@@ -719,7 +719,7 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.745081
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1307,7 +1307,7 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.7853981
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1360,7 +1360,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 0.7853981
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1413,7 +1413,7 @@ ParticleSystem:
     curve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7853982
+      scalar: 0.7853981
       minScalar: 0.7853982
       maxCurve:
         serializedVersion: 2
@@ -1463,7 +1463,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    separateAxes: 0
+    separateAxes: 1
   ColorModule:
     enabled: 0
     gradient:
@@ -10159,7 +10159,7 @@ MonoBehaviour:
   speedUpKey: 273
   speedDownKey: 274
   virtCam: {fileID: 922887771}
-  panSpeed: 0.125
+  panSpeed: 0.1949999
 --- !u!1 &936474565
 GameObject:
   m_ObjectHideFlags: 0
@@ -10194,27 +10194,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f45a59d1f050a2a429e39a8dc7f0b331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emissionData:
-    maxParticles: 0
-    particlesPerSecond: 0
-    startLifetime: 0
-    isLooping: 0
   maxParticles: 1000
   particlesPerSecond: 100
   startLifetime: 1
   isLooping: 1
-  renderData:
-    startMaterial: {fileID: 0}
-    startSize: 0
-    startColor: {r: 0, g: 0, b: 0, a: 0}
-    startRotation: {x: 0, y: 0, z: 0}
   startMaterial: {fileID: 2100000, guid: bd2d742ee2ce7a740ae0cf992a38be74, type: 2}
   startSize: 0.2
   startColor: {r: 1, g: 0.6273585, b: 0.6273585, a: 1}
   startRotation: {x: 0, y: 0, z: 0}
-  movementModule: {fileID: 0}
-  rotationModule: {fileID: 0}
-  sizeAgeModule: {fileID: 0}
 --- !u!23 &936474567
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10306,7 +10293,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ac1c606264a8d4180f37b2fcaf7ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationVelocity: {x: 0, y: 100, z: 100}
+  rotationType: 1
+  startRotation: {x: 0, y: 0, z: 45}
+  rotationVelocity: {x: 0, y: 0, z: 360}
   rotationAcceleration: {x: 0, y: 0, z: 0}
 --- !u!114 &936474572
 MonoBehaviour:
@@ -10965,7 +10954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Path: {fileID: 962069937}
-  m_PathPosition: 80.625
+  m_PathPosition: 0
   m_PositionUnits: 1
   m_PathOffset: {x: 0, y: 0, z: 0}
   m_XDamping: 1
