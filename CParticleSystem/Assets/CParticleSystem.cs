@@ -31,38 +31,26 @@ public class CParticleSystem : MonoBehaviour
     HashSet<Particle> aliveParticles;
     Queue<Particle> deadParticles;
 
-    // component data
-    [Header("Emission Data")]
     [SerializeField] private uint maxParticles;
     [SerializeField] private float particlesPerSecond;
     [SerializeField] private float startLifetime;
     [SerializeField] private bool isLooping;
     private float emissionTimer;
 
-    [Header("Renderer Data")]
     [SerializeField] private Material startMaterial;
     [SerializeField] private float startSize;
     [SerializeField] private Color startColor;
     [SerializeField] private Vector3 startRotation;
 
-    // change back to IModule
-    List<IModule> modules;
-    [SerializeField] private MovementModule movementModule;
-    [SerializeField] private RotationModule rotationModule;
-    [SerializeField] private CustomSizeModule sizeAgeModule;
-    [SerializeField] private RenderModule renderModule;
+    private IModule[] modules;
 
-    private void Awake() {
+    private void OnEnable() {
         aliveParticles = new HashSet<Particle>();
         deadParticles = new Queue<Particle>();
         mesh = new Mesh();
         meshFilter = GetComponent<MeshFilter>();
 
-        modules = new List<IModule>();
-        modules.Add(movementModule);
-        modules.Add(rotationModule);
-        modules.Add(sizeAgeModule);
-        modules.Add(renderModule);
+        modules = GetComponents<IModule>();
     }
 
     private void Update() {
@@ -90,7 +78,7 @@ public class CParticleSystem : MonoBehaviour
         // update all components
         foreach (IModule m in modules)
         {
-            m.Update(aliveParticles);
+            m.UpdateParticles(aliveParticles);
         }
         
         // render
@@ -117,7 +105,7 @@ public class CParticleSystem : MonoBehaviour
         InitDefaults(p);
         foreach (IModule m in modules)
         {
-            m.InitParticle(p, this);
+            m.InitParticle(p);
         }
         aliveParticles.Add(p);
     }

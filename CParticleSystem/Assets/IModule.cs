@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IModule
+public abstract class IModule : MonoBehaviour
 {
-    void InitParticle(Particle particle, CParticleSystem system);
-    void Update(HashSet<Particle> aliveParticles);
+    public virtual void InitParticle(Particle particle) {}
+    public virtual void UpdateParticles(HashSet<Particle> aliveParticles) {}
 }

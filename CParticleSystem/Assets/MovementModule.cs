@@ -2,42 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class MovementModule : IModule
 {
     [SerializeField] private float speed;
-    [Range(0, 100)]
-    [SerializeField] private float coneSpread;
+    [Range(0, 180)] [SerializeField] private float coneSpread;
     [SerializeField] private Vector3 coneRotation;
+    private Vector3 coneDirection => Quaternion.Euler(coneRotation) * Vector3.forward;
+    private Vector3 coneNormal => Quaternion.Euler(coneRotation) * Vector3.up;
+    private Vector3 coneTangent => Quaternion.Euler(coneRotation) * Vector3.right;
 
     [SerializeField] private Vector3 acceleration;
 
-    public void InitParticle(Particle particle, CParticleSystem system)
+    public override void InitParticle(Particle particle)
     {
-        // random point inside unit circle
-        var circlePoint = Quaternion.Euler(0, 0, Random.Range(0f, 360f)) * Vector3.right * Random.Range(0f, coneSpread);
+        // random point along unit circle
+        var randomRotAxis = Quaternion.AngleAxis(Random.Range(0f, 360f), coneDirection) * coneNormal;
+        var randomDirection = Quaternion.AngleAxis(Random.Range(-coneSpread, coneSpread), randomRotAxis) * coneDirection;
         
-        // vector pointing through the center of the cone
-        var coneDirection = Quaternion.Euler(coneRotation) * system.transform.forward;
-        
-        // axes for the circular face of the cone
-        var coneUp = Quaternion.Euler(coneRotation) * system.transform.up;
-        var coneRight = Quaternion.Euler(coneRotation) * system.transform.right;
-
-        var randomDirection = coneDirection + coneRight * circlePoint.x + coneUp * circlePoint.y;
-        
-        particle.Set<Vector3>("Velocity", system.transform.InverseTransformVector(randomDirection.normalized * speed));
+        particle.Set<Vector3>("Velocity", randomDirection * speed);
         particle.Set<Vector3>("Acceleration", acceleration);
-
     }
 
-    public void Update(HashSet<Particle> aliveParticles)
+    public override void UpdateParticles(HashSet<Particle> aliveParticles)
     {
-        //Debug.Log("Transform up: " + s.transform.up);
-        //Debug.Log("Transform right: " + s.transform.right);
         foreach (Particle p in aliveParticles) {
             p.Set<Vector3>("Position", p.Get<Vector3>("Position") + p.Get<Vector3>("Velocity") * Time.deltaTime);
             p.Set<Vector3>("Velocity", p.Get<Vector3>("Velocity") + p.Get<Vector3>("Acceleration") * Time.deltaTime);
         }
+    }
+
+
+    public void OnDrawGizmosSelected() {
+        var coneDirectionWorld = transform.TransformDirection(coneDirection);
+        var coneNormalWorld = transform.TransformDirection(coneNormal);
+        var coneTangentWorld = transform.TransformDirection(coneTangent);
+
+        Gizmos.color = new Color(0.3f, 1f, 1f, 1f);
+        Gizmos.DrawRay(transform.position, coneDirectionWorld * speed);
+
+        Gizmos.color = new Color(0.1f, 0.3f, 0.6f, 1f);
+        Gizmos.DrawRay(transform.position, Quaternion.AngleAxis( coneSpread,  coneNormalWorld) * coneDirectionWorld * speed);
+        Gizmos.DrawRay(transform.position, Quaternion.AngleAxis(-coneSpread,  coneNormalWorld) * coneDirectionWorld * speed);
+        Gizmos.DrawRay(transform.position, Quaternion.AngleAxis( coneSpread, coneTangentWorld) * coneDirectionWorld * speed);
+        Gizmos.DrawRay(transform.position, Quaternion.AngleAxis(-coneSpread, coneTangentWorld) * coneDirectionWorld * speed);
     }
 }

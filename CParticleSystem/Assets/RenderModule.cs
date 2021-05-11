@@ -2,25 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class RenderModule : IModule
 {
     [SerializeField] private bool billboarding;
 
-    public void InitParticle(Particle particle, CParticleSystem system)
+    public override void InitParticle(Particle particle)
     {
         if (billboarding)
         {
             particle.Set<Vector3>("Rotation", Vector3.zero);
         }
     }
-    public void Update(HashSet<Particle> aliveParticles)
+    public override void UpdateParticles(HashSet<Particle> aliveParticles)
     {
         if (billboarding)
         {
+            var camera = Camera.main;
+
             foreach (Particle p in aliveParticles)
             {
-                var lookDir = Quaternion.LookRotation(-Camera.main.transform.forward);
+                var lookDir = Quaternion.LookRotation(-camera.transform.forward);
                 p.Set<Vector3>("Rotation", lookDir.eulerAngles);
             }
         }
