@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-[RequireComponent(typeof (MeshFilter))]
-[RequireComponent(typeof (MeshRenderer))]
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class CParticleSystem : MonoBehaviour
 {
     /*
@@ -129,6 +129,7 @@ public class CParticleSystem : MonoBehaviour
     private void InitDefaults(Particle p)
     {
         p.Set<float>("Lifetime", startLifetime);
+        p.Set<float>("Total_Lifetime", startLifetime);
         p.Set<Vector3>("Position", Vector3.zero);
         p.Set<float>("Size", startSize);
         p.Set<Color>("Color", startColor);
