@@ -17,6 +17,7 @@ public class CustomSizeModule : IModule
     [SerializeField] private Vector2 uniformRange;
     [SerializeField] private float normalMean;
     [SerializeField] private float normalSpread;
+    [SerializeField] private AnimationCurve sizeCurve;
 
     public override void InitParticle(Particle particle)
     {
@@ -29,7 +30,7 @@ public class CustomSizeModule : IModule
         foreach (Particle p in aliveParticles)
         {
             p.Set<float>("Age", p.Get<float>("Age") + Time.deltaTime);
-            p.Set<float>("Size", OscillateSize(p));
+            p.Set<float>("Size", OscillateSize(p) * sizeCurve.Evaluate(p.Get<float>("Age") / p.Get<float>("Total_Lifetime"))) ;
         }
     }
 
